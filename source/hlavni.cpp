@@ -76,7 +76,7 @@ static void HLAVNI_MovePlayer (void)
 
     // TODO: if (g_inp.key[SDLK_p]) M3_TGAScreenShot ();
 
-    if (g_inp.key[SDLK_SPACE])
+    if (CO_IsKeyPressed(SDLK_SPACE))
         DRAW_Stats ();
 
     // ZKontroluje zda ma pevnou pudu pod nohama
@@ -96,32 +96,32 @@ static void HLAVNI_MovePlayer (void)
         if (M3_M_ISFLAG(0, M3_F_ONICE))
             MOVE_Ice (m3Man[0].O * 2 - 1);
 
-        if (!g_inp.key[SDLK_LALT] && !g_inp.key[SDLK_RALT])
+        if (!CO_IsKeyPressed(SDLK_LALT) && !CO_IsKeyPressed(SDLK_RALT))
         {
             if (!m3Man[0].Si || m3Man[0].S)
             {
-                if ((m3Man[0].S == 1) && (m3Man[0].J > 17) && (g_inp.key[SDLK_DOWN]))
+                if ((m3Man[0].S == 1) && (m3Man[0].J > 17) && (CO_IsKeyPressed(SDLK_DOWN)))
                     m3Man[0].S = 2;
 
                 if (!M3_M_ISFLAG(0, M3_F_ONICE))
                 {
-                    if (g_inp.key[SDLK_RIGHT])
+                    if (CO_IsKeyPressed(SDLK_RIGHT))
                     {
                         MOVE_Side (0, m3Man[0].Ad);
                         has_moved = true;
                     }
-                    if (g_inp.key[SDLK_LEFT])
+                    if (CO_IsKeyPressed(SDLK_LEFT))
                     {
                         MOVE_Side (0, -m3Man[0].Ad);
                         has_moved = true;
                     }
                 }
-                if ((g_inp.key[SDLK_UP]) && (!m3Man[0].S))
+                if ((CO_IsKeyPressed(SDLK_UP)) && (!m3Man[0].S))
                 {
                     m3Man[0].S = 1;
                     m3Man[0].J = 0;
                 }
-                if (g_inp.key[SDLK_LCTRL] || g_inp.key[SDLK_RCTRL])
+                if (CO_IsKeyPressed(SDLK_LCTRL) || CO_IsKeyPressed(SDLK_RCTRL))
                     SHOT_Shot (0);
             }
         }
@@ -146,7 +146,7 @@ static void HLAVNI_MovePlayer (void)
         m3Man[0].F = 0;
 
     // Preskakovani urovni
-    if ((g_inp.key[SDLK_m]) && (g_inp.key[SDLK_y]) && (g_inp.key[SDLK_s]) && (m3MenuVal == 3))
+    if ((CO_IsKeyPressed(SDLK_m)) && (CO_IsKeyPressed(SDLK_y)) && (CO_IsKeyPressed(SDLK_s)) && (m3MenuVal == 3))
         M3_M_SETFLAG(0, M3_F_NEXT);
 }
 
@@ -178,7 +178,7 @@ static void HLAVNI_Update (void)
 
     if (M3_M_ISFLAG(0, M3_F_DIED))
         m3LoopQuitCode = M3_QC_DIED;
-    if (g_inp.key[SDLK_ESCAPE])
+    if (CO_IsKeyPressed(SDLK_ESCAPE))
         m3LoopQuitCode = M3_QC_QUIT;
 }
 
@@ -294,9 +294,9 @@ static void HLAVNI_AskForSave (void)
     do
     {
         CO_ProcessEvents ();
-        if (g_inp.key[SDLK_a])
+        if (CO_IsKeyPressed(SDLK_a))
             MISC_SaveGame ();
-    } while (!g_inp.key[SDLK_n] && !g_inp.key[SDLK_a]);
+    } while (!CO_IsKeyPressed(SDLK_n) && !CO_IsKeyPressed(SDLK_a));
 }
 
 /*

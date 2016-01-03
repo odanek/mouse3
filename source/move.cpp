@@ -114,15 +114,15 @@ Pohyb obrazovkou pres Alt
 */
 void MOVE_ScrXY (void)
 {
-    if (g_inp.key[SDLK_LALT] || g_inp.key[SDLK_RALT])
+    if (CO_IsKeyPressed(SDLK_LALT) || CO_IsKeyPressed(SDLK_RALT))
     {
-        if ((g_inp.key[SDLK_RIGHT]) && (m3Screen.adXX < 110))
+        if ((CO_IsKeyPressed(SDLK_RIGHT)) && (m3Screen.adXX < 110))
             m3Screen.adXX += 3;
-        if ((g_inp.key[SDLK_LEFT]) && (m3Screen.adXX > -110))
+        if ((CO_IsKeyPressed(SDLK_LEFT)) && (m3Screen.adXX > -110))
             m3Screen.adXX -= 3;
-        if ((g_inp.key[SDLK_UP]) && (m3Screen.adYY > -60))
+        if ((CO_IsKeyPressed(SDLK_UP)) && (m3Screen.adYY > -60))
             m3Screen.adYY -= 3;
-        if ((g_inp.key[SDLK_DOWN]) && (m3Screen.adYY < 60))
+        if ((CO_IsKeyPressed(SDLK_DOWN)) && (m3Screen.adYY < 60))
             m3Screen.adYY += 3;
     }
     else

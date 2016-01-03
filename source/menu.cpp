@@ -165,7 +165,7 @@ static void MENU_HiScores (void)
             }
             DRAW_BlitScreen (2560);
         }
-    } while (!g_inp.key[SDLK_RETURN] || press);
+    } while (!CO_IsKeyPressed(SDLK_RETURN) || press);
 }
 
 /*
@@ -182,7 +182,7 @@ static int MENU_GetKey (void)
            SDLK_s, SDLK_t, SDLK_u, SDLK_v, SDLK_w, SDLK_x, SDLK_y, SDLK_z };
 
     for (l = 0; l < 26; l++)
-        if (g_inp.key[pism[l]])
+        if (CO_IsKeyPressed(pism[l]))
             return l;
     return -1;
 }
@@ -207,14 +207,14 @@ static void MENU_Input (int y, char col, char max, char *str)
 
                 if (!press)
                 {
-                    if (g_inp.key[SDLK_BACKSPACE])
+                    if (CO_IsKeyPressed(SDLK_BACKSPACE))
                     {
                         str[delka] = 0;
                         if (delka)
                             delka--;
                         press = WAITTIME;
                     }
-                    if (g_inp.key[SDLK_SPACE] && delka < max)
+                    if (CO_IsKeyPressed(SDLK_SPACE) && delka < max)
                     {
                         str[delka++] = ' ';
                         press = WAITTIME;
@@ -238,7 +238,7 @@ static void MENU_Input (int y, char col, char max, char *str)
             FONT_WriteSF (20 - delka / 2, y, col, &str[0]);
             DRAW_BlitScreen (2560);
         }
-    } while (!g_inp.key[SDLK_RETURN]);
+    } while (!CO_IsKeyPressed(SDLK_RETURN));
     str[delka] = 0;
 }
 
@@ -323,12 +323,12 @@ void MENU_Control (int max, int &cur_item, int x_pos)
 
                 if (!press)
                 {
-                    if ((g_inp.key[SDLK_UP]) && (cur_item > 1))
+                    if ((CO_IsKeyPressed(SDLK_UP)) && (cur_item > 1))
                     {
                         cur_item--;
                         press = WAITTIME;
                     }
-                    if ((g_inp.key[SDLK_DOWN]) && (cur_item < max))
+                    if ((CO_IsKeyPressed(SDLK_DOWN)) && (cur_item < max))
                     {
                         cur_item++;
                         press = WAITTIME;
@@ -340,7 +340,7 @@ void MENU_Control (int max, int &cur_item, int x_pos)
             MENU_DrawItems (max, cur_item, x_pos);
             DRAW_BlitScreen (2560);
         }
-    } while (!g_inp.key[SDLK_RETURN] || press);
+    } while (!CO_IsKeyPressed(SDLK_RETURN) || press);
 }
 
 /*

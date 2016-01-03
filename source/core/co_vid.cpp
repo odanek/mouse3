@@ -42,7 +42,7 @@ void VID_SwapBuffers (void)
     if (!g_vid.inited)
         return;
 
-    SDL_GL_SwapBuffers( );
+	SDL_GL_SwapWindow(g_vid.window);
 }
 
 /*
@@ -62,57 +62,45 @@ Nastaveni konkretniho grafickeho modu
 */
 void VID_SetMode (int w, int h, int bpp, int aa, bool full)
 {
-    int flags = 0, val[7];
+	int flags = 0;
 
-    g_vid.cl_width = w;
-    g_vid.cl_height = h;
-    g_vid.gl_aspect = (float) g_vid.cl_width / (float) g_vid.cl_height;
+	g_vid.cl_width = w;
+	g_vid.cl_height = h;
+	g_vid.gl_aspect = (float) g_vid.cl_width / (float) g_vid.cl_height;
 
-    flags = SDL_OPENGL;
-    if (full)
-        flags |= SDL_FULLSCREEN;
+	flags = SDL_WINDOW_OPENGL;
+	if (full)
+		flags |= SDL_WINDOW_FULLSCREEN;
 
-    SDL_GL_SetAttribute (SDL_GL_RED_SIZE, 1);
-    SDL_GL_SetAttribute (SDL_GL_GREEN_SIZE, 1);
-    SDL_GL_SetAttribute (SDL_GL_BLUE_SIZE, 1);
-    SDL_GL_SetAttribute (SDL_GL_BUFFER_SIZE, bpp);
-    SDL_GL_SetAttribute (SDL_GL_ALPHA_SIZE, 0);
-    SDL_GL_SetAttribute (SDL_GL_STENCIL_SIZE, 0);
-    SDL_GL_SetAttribute (SDL_GL_ACCUM_RED_SIZE, 0);
-    SDL_GL_SetAttribute (SDL_GL_ACCUM_GREEN_SIZE, 0);
-    SDL_GL_SetAttribute (SDL_GL_ACCUM_BLUE_SIZE, 0);
-    SDL_GL_SetAttribute (SDL_GL_ACCUM_ALPHA_SIZE, 0);
-    SDL_GL_SetAttribute (SDL_GL_DEPTH_SIZE, 16);
-    SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, bpp);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-    if (aa > 0 && aa < 8 && aa % 2 == 0)
-    {
-        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, aa);
-    }
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 
-    // Otestuj pri jakem bpp je mozne vyhovet parametrum
-    bpp = SDL_VideoModeOK (w, h, bpp, flags);
-    if (!bpp)
-        MY_Err (MY_ErrDump ("%s", MY_L("COSTR0008|Nelze nastavit graficky rezim")));
+	if (aa > 0 && aa < 8 && aa % 2 == 0)
+	{
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, aa);
+	}
 
-    // Nastav novy graficky rezim
-    g_app.screen_surf = SDL_SetVideoMode (w, h, bpp, flags);
-    if (g_app.screen_surf == NULL)
-        MY_Err (MY_ErrDump ("%s: %s\n", MY_L("COSTR0009|Nelze nastavit graficky rezim"), SDL_GetError()));
+	// Nastav novy graficky rezim
+	g_vid.window = SDL_CreateWindow(APP_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, g_vid.cl_width, g_vid.cl_height, SDL_WINDOW_INPUT_GRABBED | flags);
+	if (g_vid.window == NULL)
+		MY_Err (MY_ErrDump ("%s: %s\n", MY_L("COSTR0009|Nelze nastavit graficky rezim"), SDL_GetError()));
 
-    // Kontrola vyslednych pouzitych parametru
-    SDL_GL_GetAttribute (SDL_GL_RED_SIZE, &val[0]);
-    SDL_GL_GetAttribute (SDL_GL_GREEN_SIZE, &val[1]);
-    SDL_GL_GetAttribute (SDL_GL_BLUE_SIZE, &val[2]);
-    SDL_GL_GetAttribute (SDL_GL_BUFFER_SIZE, &val[3]);
-    SDL_GL_GetAttribute (SDL_GL_DEPTH_SIZE, &val[4]);
-    SDL_GL_GetAttribute (SDL_GL_ALPHA_SIZE, &val[5]);
-    SDL_GL_GetAttribute (SDL_GL_STENCIL_SIZE, &val[6]);
+	SDL_SetWindowTitle (g_vid.window, APP_NAME);
+	SDL_SetWindowIcon (g_vid.window, SDL_LoadBMP (APP_FILE_ICON));
 
-    SDL_ShowCursor (SDL_DISABLE);
+	g_vid.glContext = SDL_GL_CreateContext(g_vid.window);
+	if (g_vid.glContext == NULL)
+		MY_Err (MY_ErrDump ("%s: %s\n", MY_L("COSTR0009|Nelze ziskat OpenGL context"), SDL_GetError()));
 
-    g_vid.inited = true;
+	SDL_GL_SetSwapInterval(1);
+	SDL_ShowCursor (SDL_DISABLE);
+
+	g_vid.inited = true;
 }
 
 /*

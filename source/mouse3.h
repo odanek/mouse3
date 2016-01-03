@@ -217,7 +217,7 @@ extern SDL_Surface *m3SdlMainSurface;
                                     MOUSE3.CPP
 ===============================================================================
 */
-void    M3_WaitFor          (int key);
+void    M3_WaitFor          (SDL_Keycode key);
 int     M3_DoLoop           (void (*move)(void), void (*draw)(void));
 
 /*

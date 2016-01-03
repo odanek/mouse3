@@ -59,12 +59,12 @@ void P_ActiveEvent (bool active)
 Cekani na stisk dane klavesy
 ==================================================
 */
-void M3_WaitFor (int key)
+void M3_WaitFor (SDL_Keycode key)
 {
     do
     {
         CO_ProcessEvents ();
-    } while (!g_inp.key[key]);
+    } while (!CO_IsKeyPressed(key));
 }
 
 /*

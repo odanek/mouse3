@@ -34,14 +34,14 @@ Popis: Hlavni hlavickovy soubor jadra
 #define __CO_CORE_H
 
 /* SDL */
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 
 /* Moje standardni knihovny */
 #include "../mylib/mylib.h"
 
 /* Makra a definice */
-#define APP_VERSION         "1.0.0"
+#define APP_VERSION         "2.0.0"
 #define APP_NAME            "The Mouse 3"
 #define APP_FILE_ICON       "data/mouse3_icon.bmp"
 #define APP_FILE_CORE_PCK   "data/mouse3.pck"
@@ -69,6 +69,8 @@ struct app_s
 struct appVid_s
 {
     bool        inited;             // Video inited?
+	SDL_Window *window;				// SDL Window
+	SDL_GLContext glContext; 		// OpenGL context
 
     int         cl_width;           // Client width
     int         cl_height;          // Client height
@@ -81,22 +83,8 @@ struct appVid_s
     float       gl_zdepth;          // OpenGL z-buffer depth
 };
 
-struct appInp_s
-{
-    int             flags;
-    int             keytrans[SDLK_LAST][2];
-    bool            key[SDLK_LAST];
-    int             lastkey;
-    int             lastkeychar;
-    int             joy_num;
-    SDL_Joystick    *joy_dev[8];    // Maximalne 8 joypadu
-    bool            mouse_but[3];
-    int             mouse_pos[2];
-};
-
 extern app_s    g_app;
 extern appVid_s g_vid;
-extern appInp_s g_inp;
 
 /*
 ==================================================
@@ -104,50 +92,7 @@ co_main.cpp
 ==================================================
 */
 void            CO_ProcessEvents    (void);
-
-/*
-==================================================
-co_input.cpp
-==================================================
-*/
-#define APP_INP_INIT_NONE     0x0000
-#define APP_INP_INIT_KEY      0x0001
-#define APP_INP_INIT_JOY      0x0002
-
-#define APP_INP_CODE(x,y)   ((x) | (y))
-
-#define APP_INP_KEY             0x01000
-#define APP_INP_MOUSE           0x02000
-#define APP_INP_JOY1            0x03000
-#define APP_INP_JOY2            0x04000
-#define APP_INP_JOY3            0x05000
-#define APP_INP_JOY4            0x06000
-#define APP_INP_JOY5            0x07000
-#define APP_INP_JOY6            0x08000
-#define APP_INP_JOY7            0x09000
-#define APP_INP_JOY8            0x0a000
-
-#define APP_INP_MOUSE_LEFT      0x00000
-#define APP_INP_MOUSE_RIGHT     0x00001
-#define APP_INP_MOUSE_MIDDLE    0x00002
-
-#define APP_INP_JOY_UP          0x00001
-#define APP_INP_JOY_DOWN        0x00002
-#define APP_INP_JOY_LEFT        0x00003
-#define APP_INP_JOY_RIGHT       0x00004
-#define APP_INP_JOY_BUT1        0x00005
-#define APP_INP_JOY_BUT2        0x00006
-#define APP_INP_JOY_BUT3        0x00007
-#define APP_INP_JOY_BUT4        0x00008
-#define APP_INP_JOY_BUT5        0x00009
-#define APP_INP_JOY_BUT6        0x0000a
-#define APP_INP_JOY_BUT7        0x0000b
-#define APP_INP_JOY_BUT8        0x0000c
-
-void            CO_InpInit          (int flags);
-void            CO_InpUpdate        (void);
-bool            CO_InpIsPressed     (int code);
-int             CO_InpGetKey        (bool trans);
+bool 			CO_IsKeyPressed		(SDL_Keycode keyCode);
 
 /*
 ==================================================

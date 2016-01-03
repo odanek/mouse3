@@ -31,6 +31,7 @@ Popis: Uvodni nastaveni
 */
 
 #include <time.h>
+#include <SDL2/SDL_video.h>
 #include "mouse3.h"
 
 /*
@@ -52,12 +53,13 @@ static void SET_Graphics (void)
 #else
 
     // Zjisteni aktualniho rozliseni
-    const SDL_VideoInfo *s = SDL_GetVideoInfo ();
+	SDL_DisplayMode currentVideoMode;
+	SDL_GetCurrentDisplayMode(0, &currentVideoMode);
 
     // Nastaveni grafickeho modu
-    printf ("Opening graphics mode %dx%dx32\n", s->current_w, s->current_h);
+    printf ("Opening graphics mode %dx%dx32\n", currentVideoMode.w, currentVideoMode.h);
     SDL_Delay (3000);
-    VID_SetMode (s->current_w, s->current_h, 32, 0, true);
+    VID_SetMode (currentVideoMode.w, currentVideoMode.h, 32, 0, true);
 
     // Spocitame zoom, abychom zabrali co nejvetsi cast obrazovky pri zachovani aspect ratia
     if (g_vid.cl_width / 320.0f > g_vid.cl_height / 200.0f)
