@@ -34,14 +34,15 @@ Popis: Hlavni hlavickovy soubor
 #define __MYLIB_H
 
 #include <stdio.h>
+#include <stdint.h>
 
 #define MYLIB_VERSION   "3.2.5"
 
-typedef unsigned char   myBYTE;
-typedef unsigned short  myWORD;
-typedef unsigned long   myDWORD;
-typedef unsigned int    myUINT;
-typedef size_t          mySIZE;
+typedef uint8_t myBYTE;
+typedef uint16_t myWORD;
+typedef uint32_t myDWORD;
+typedef uint32_t myUINT;
+typedef size_t mySIZE;
 
 #define MY_Max(x,y)     ((x) > (y) ? (x) : (y))
 #define MY_Min(x,y)     ((x) > (y) ? (y) : (x))

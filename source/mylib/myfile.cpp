@@ -31,6 +31,7 @@ Popis: Prace se soubory a s knihovnami souboru
 */
 
 #include <string.h>
+#include <stdint.h>
 #include "mylib.h"
 
 // Pouzivane struktury
@@ -44,7 +45,7 @@ struct myPckfile_s
 struct myPcklib_s
 {
     char                *lib_name;
-    int                 num_files;
+    myDWORD             num_files;
     myPckfile_s         *pck_file;
     struct myPcklib_s   *pck_next;
 };
@@ -111,7 +112,7 @@ int MY_AddPck (const char *fr)
 {
     myPcklib_s  *plib;
     FILE        *f;
-    long        header[2];
+    myDWORD     header[2];
     size_t      l;
     int         i, len = 0;
 

@@ -30,7 +30,7 @@ Projekt: Knihovna mylib
 Popis: Hlavni routiny - prace s pameti
 */
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 #include "mylib.h"
 
