@@ -46,7 +46,6 @@ Popis: Hlavni hlavickovy soubor projektu
 
 #define  MOUSE3_DAT  "data/mouse3.dat"
 #define  MOUSE3_SAV  "data/mouse3.sav"
-#define  MOUSE3_PCK  "data/mouse3.pck"
 #define  MOUSE3_INT  "data/intro.spo"
 
 #define  MONSTERS    11

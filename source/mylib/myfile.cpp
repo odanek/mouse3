@@ -114,7 +114,7 @@ int MY_AddPck (const char *fr)
     FILE        *f;
     myDWORD     header[2];
     size_t      l;
-    int         i, len = 0;
+    int         len = 0;
 
     if (MY_CheckIfAdded (fr))
         return MY_ALREADY;
@@ -136,7 +136,7 @@ int MY_AddPck (const char *fr)
     plib->pck_next  = myPckLib;
     plib->pck_file  = MY_MALLOC (myPckfile_s, plib->num_files);
 
-    for (i = 0; i < plib->num_files; i++)
+    for (size_t i = 0; i < plib->num_files; i++)
     {
         if (header[0] == MYFILE_PCK1_ID)
             len = MYFILE_PCK1_MAX_NAME;
@@ -167,13 +167,12 @@ Uvolni vsechny knihovny z pameti
 */
 void MY_FreePck (void)
 {
-    int         i;
     myPcklib_s  *plib, *next;
 
     plib = myPckLib;
     while (plib != NULL)
     {
-        for (i = 0; i < plib->num_files; i++)
+        for (size_t i = 0; i < plib->num_files; i++)
             MY_Free (plib->pck_file[i].name);
         MY_Free (plib->lib_name);
         MY_Free (plib->pck_file);
@@ -235,9 +234,8 @@ myFile_s *MY_FOpen (const char *fr, long ofst, const char *mod, bool must)
 {
     myPcklib_s *plib;
     myFile_s    *f = NULL;
-    int         i;
 
-    for (i = 0; i < MYFILE_MAX_OPENED; i++)
+    for (size_t i = 0; i < MYFILE_MAX_OPENED; i++)
         if (!myFile[i].opened)
         {
             f = &myFile[i];
@@ -257,7 +255,7 @@ myFile_s *MY_FOpen (const char *fr, long ofst, const char *mod, bool must)
         plib = myPckLib;
         while (plib != NULL)
         {
-            for (i = 0; i < plib->num_files; i++)
+            for (size_t i = 0; i < plib->num_files; i++)
                 if (!strcmp (fr, plib->pck_file[i].name))
                 {
                     f->offs = plib->pck_file[i].offs;

@@ -181,8 +181,6 @@ void P_Init (void)
 
     printf ("==== The Mouse 3 ====\nBy O.Danek (c) 2006\n");
     printf ("Starting TEEM 4 engine\n");
-    printf ("Starting PCK engine\n");
-    printf ("Main graphics file : %s\n", MOUSE3_PCK);
     printf ("Monsters data : %d\n", MONSTERS);
     printf ("Starting keyboard handler\n");
     printf ("Main data file : %s\n", MOUSE3_DAT);

@@ -39,8 +39,9 @@ Swap buffers - prohodi buffery
 */
 void VID_SwapBuffers (void)
 {
-    if (!g_vid.inited)
-        return;
+    if (!g_vid.inited) {
+		return;
+	}
 
 	SDL_GL_SwapWindow(g_vid.window);
 }
